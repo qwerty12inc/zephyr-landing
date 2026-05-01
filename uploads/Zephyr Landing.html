@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zephyr — Fly Without Fear</title>
+<template id="__bundler_thumbnail" data-bg-color="#C2E8FF">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#C2E8FF"/>
+    <rect x="60" y="60" width="1080" height="680" rx="28" fill="#b0daf5"/>
+    <ellipse cx="300" cy="260" rx="180" ry="50" fill="white" opacity="0.7"/>
+    <ellipse cx="220" cy="230" rx="90" ry="65" fill="white" opacity="0.7"/>
+    <ellipse cx="380" cy="220" rx="100" ry="70" fill="white" opacity="0.7"/>
+    <rect x="120" y="340" width="320" height="24" rx="8" fill="#253036" opacity="0.5"/>
+    <rect x="120" y="380" width="220" height="16" rx="6" fill="#253036" opacity="0.3"/>
+    <rect x="120" y="420" width="160" height="44" rx="22" fill="#253036" opacity="0.6"/>
+    <rect x="680" y="200" width="320" height="580" rx="40" fill="#253036" opacity="0.5"/>
+  </svg>
+</template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #FFFFFF;
+    --dark: #253036;
+    --teal: #5D8C92;
+    --blue: #6B8FA3;
+    --purple: #A76DA2;
+    --sage: #A8BFA8;
+    --gold: #D8B36A;
+    --pink: #F1B7BE;
+    --amber: #FFBF00;
+    --off-white: #F7F6F4;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: #dde8ec;
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* TOP FRAME (rounded hero + nav container like reasonal) */
+  .top-frame {
+    margin: 10px 10px 0;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #C2E8FF;
+  }
+
+  /* NAV */
+  nav {
+    background: transparent;
+    padding: 0 5vw;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--dark);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--teal); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero-outer {
+    position: relative;
+    overflow: hidden;
+    background: #C2E8FF url('cloud.png') center bottom / cover no-repeat;
+    min-height: calc(100vh - 68px);
+  }
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 60px 5vw 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: calc(100vh - 68px);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dark);
+    letter-spacing: 0.01em;
+    margin-bottom: 32px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--teal);
+    border-radius: 50%;
+    display: block;
+  }
+  .hero-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(52px, 5.5vw, 88px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: #1d3a47;
+    margin-bottom: 28px;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: #2a6070;
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.65;
+    color: #1d3a47;
+    opacity: 0.75;
+    max-width: 440px;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--dark);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    width: fit-content;
+  }
+  .btn-primary:hover { background: var(--teal); transform: translateY(-1px); }
+  .btn-primary svg { width: 18px; height: 18px; fill: currentColor; }
+  .hero-micro {
+    font-size: 12px;
+    color: var(--dark);
+    opacity: 0.4;
+    letter-spacing: 0.03em;
+  }
+  .hero-link {
+    font-size: 14px;
+    color: var(--dark);
+    opacity: 0.5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s;
+  }
+  .hero-link:hover { opacity: 1; }
+
+  /* PHONE MOCKUP */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .phone {
+    width: 300px;
+    height: 600px;
+    background: var(--dark);
+    border-radius: 44px;
+    padding: 16px;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(37,48,54,0.25), 0 8px 24px rgba(37,48,54,0.1);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .phone-notch {
+    width: 90px; height: 28px;
+    background: #1a2428;
+    border-radius: 0 0 18px 18px;
+    margin: 0 auto 12px;
+  }
+  .phone-screen {
+    background: #1e2d33;
+    border-radius: 30px;
+    height: calc(100% - 16px);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+  }
+  .phone-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .phone-avatar {
+    width: 32px; height: 32px;
+    background: var(--teal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 14px;
+    color: white;
+    font-weight: 700;
+  }
+  .phone-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+  .phone-status {
+    font-size: 10px;
+    color: var(--teal);
+    margin-top: 1px;
+  }
+  .offline-pill {
+    margin-left: auto;
+    background: rgba(93,140,146,0.2);
+    border: 1px solid rgba(93,140,146,0.3);
+    border-radius: 100px;
+    padding: 3px 8px;
+    font-size: 9px;
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .chat-msgs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .msg {
+    max-width: 85%;
+    padding: 10px 13px;
+    border-radius: 16px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .msg-user {
+    background: var(--blue);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .msg-ai {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.85);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .qr {
+    background: rgba(93,140,146,0.15);
+    border: 1px solid rgba(93,140,146,0.3);
+    border-radius: 100px;
+    padding: 5px 10px;
+    font-size: 10px;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  /* FEATURES */
+  .features {
+    background: var(--white);
+    padding: 0;
+  }
+  .features-inner {
+    background: #e8f0eb;
+    padding: 52px 5vw 48px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-label.light { color: var(--teal); }
+  .section-label.dark { color: var(--teal); }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 3.5vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 64px;
+  }
+  .section-title.light { color: var(--white); }
+  .section-title em { font-style: italic; color: var(--teal); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+  .feature-card {
+    padding: 52px 48px 48px;
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 0;
+    transition: filter 0.2s;
+  }
+  .feature-card:hover { filter: brightness(0.97); }
+  .feature-card:nth-child(1) { background: #e4eff1; }
+  .feature-card:nth-child(2) { background: #e3eaf0; }
+  .feature-card:nth-child(3) { background: #ede5f0; grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1fr; min-height: 260px; }
+  .feature-card:nth-child(3) .feature-name { font-size: clamp(32px, 3vw, 52px); grid-column: 1 / 3; grid-row: 1; }
+  .feature-card:nth-child(3) .feature-desc { grid-column: 1 / 3; grid-row: 2; }
+  .feature-card:nth-child(3) .feature-img { grid-column: 3; grid-row: 1 / 3; margin: -52px -48px -48px 24px; }
+  .feature-card:nth-child(4) { background: #e8ede8; }
+  .feature-card:nth-child(5) { background: #faeaec; }
+  .feature-name {
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 2.2vw, 38px);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .feature-name em { font-style: italic; color: inherit; opacity: 0.55; }
+  .feature-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.6;
+    font-weight: 400;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+  }
+  .feature-img {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    overflow: hidden;
+    margin: -52px -48px -48px 24px;
+  }
+
+
+  /* TESTIMONIALS */
+  .testimonials {
+    padding: 120px 0;
+    background: var(--off-white);
+    overflow: hidden;
+  }
+  .testimonials-header {
+    padding: 0 5vw;
+    margin-bottom: 56px;
+  }
+  .testimonials-track {
+    display: flex;
+    gap: 20px;
+    padding: 0 5vw;
+    overflow-x: auto;
+    scrollbar-width: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .testimonials-track::-webkit-scrollbar { display: none; }
+  .testimonials-track.dragging { cursor: grabbing; }
+  .review-card {
+    flex: 0 0 380px;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(37,48,54,0.07);
+  }
+  .stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 20px;
+  }
+  .star { color: var(--gold); font-size: 16px; }
+  .review-text {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--dark);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .reviewer {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    opacity: 0.5;
+    letter-spacing: 0.02em;
+  }
+
+  /* FAQ */
+  .faq-outer {
+    background: #ede9f4;
+  }
+  .faq {
+    padding: 120px 5vw;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .faq-header { margin-bottom: 64px; }
+  .faq-item {
+    border-bottom: 1px solid rgba(37,48,54,0.1);
+  }
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+    text-align: left;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark);
+    gap: 20px;
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--teal); }
+  .faq-icon {
+    width: 28px; height: 28px;
+    border: 1.5px solid rgba(37,48,54,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.2s, transform 0.3s;
+    font-size: 14px;
+    color: var(--dark);
+  }
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.6;
+    padding-bottom: 0;
+  }
+  .faq-item.open .faq-a {
+    max-height: 300px;
+    padding-bottom: 28px;
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    background: #0b1a2a;
+    padding: 140px 5vw;
+    text-align: center;
+  }
+  .night-sky {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .night-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 42% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 57% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 83% 18%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 91% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 8% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 38%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 62% 42%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 48%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 48% 55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 88% 62%, rgba(255,255,255,0.6) 0%, transparent 100%);
+  }
+  .final-cta-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .final-cta .section-title {
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .cta-sub {
+    font-size: 17px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 44px;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+  .btn-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    color: var(--dark);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 30px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .btn-light:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .btn-light svg { width: 18px; height: 18px; fill: currentColor; }
+  .cta-note {
+    margin-top: 18px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.03em;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    padding: 48px 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-logo {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: rgba(255,255,255,0.8); }
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  @media (max-width: 900px) {
+    .top-frame { margin: 6px 6px 0; border-radius: 20px; }
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 60px; }
+    .hero-sub, .btn-primary, .hero-link { margin-left: auto; margin-right: auto; }
+    .hero-badge { margin-left: auto; margin-right: auto; }
+    .phone-wrap { display: none; }
+    .features-grid { grid-template-columns: 1fr; }
+    .feature-card:nth-child(3) { grid-template-columns: 1fr; }
+    .feature-card:nth-child(3) .feature-name { grid-column: 1; }
+    .feature-card:nth-child(3) .feature-desc { grid-column: 1; }
+    .feature-card:nth-child(3) .feature-img { grid-column: 1; grid-row: 3; margin: 16px -48px -48px -48px; height: 140px; }
+    nav .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .review-card { flex: 0 0 300px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP FRAME -->
+<div class="top-frame">
+<nav>
+  <a href="#" class="nav-logo">Zephyr</a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Download free</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero-outer">
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">Works offline · No account needed · Free to try</div>
+    <h1 class="hero-headline">Fly without<br><em>fear</em></h1>
+    <p class="hero-sub">Zephyr is your offline AI companion that helps you stay calm during flights — from takeoff jitters to turbulence and everything in between.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+      </a>
+      <a href="#features" class="hero-link">See how it works ↓</a>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-header">
+          <div class="phone-avatar">Z</div>
+          <div>
+            <div class="phone-name">Zephyr</div>
+            <div class="phone-status">● Active</div>
+          </div>
+          <div class="offline-pill">Offline · No data sent</div>
+        </div>
+        <div class="chat-msgs">
+          <div class="msg msg-user">I'm scared of turbulence</div>
+          <div class="msg msg-ai">I'm right here with you. Turbulence is normal — the aircraft is designed for this. Let's breathe through it together. ✦</div>
+          <div class="msg msg-ai">Breathe in for 4... hold for 4... and slowly out for 6. You're safe. 💙</div>
+          <div class="quick-replies">
+            <span class="qr">Is this normal?</span>
+            <span class="qr">I feel panic</span>
+            <span class="qr">What's that sound?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</div><!-- /top-frame -->
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <div class="section-label dark">Everything you need</div>
+    <h2 class="section-title">Your calm<br>starts <em>here</em></h2>
+  </div>
+  <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-name">Calm<br><em>Mode</em></div>
+        <div class="feature-desc">Guided breathing and grounding techniques to reduce anxiety in real time. Step by step, your nervous system returns to baseline.</div>
+        <div class="feature-img"><svg width="100%" height="100%"><defs><pattern id="s1" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(37,48,54,0.1)" stroke-width="4"/></pattern></defs><rect width="100%" height="100%" fill="url(#s1)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="monospace" font-size="10" fill="rgba(37,48,54,0.3)">app screenshot</text></svg></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-name">Turbulence<br><em>Support</em></div>
+        <div class="feature-desc">Understand what's happening during turbulence and feel safe with real explanations — not platitudes. Knowledge calms.</div>
+        <div class="feature-img"><svg width="100%" height="100%"><defs><pattern id="s2" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(37,48,54,0.1)" stroke-width="4"/></pattern></defs><rect width="100%" height="100%" fill="url(#s2)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="monospace" font-size="10" fill="rgba(37,48,54,0.3)">app screenshot</text></svg></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-name">Private<br><em>&amp; Safe</em></div>
+        <div class="feature-desc">Your conversations stay on your device. No data leaves your phone, ever. Private by architecture, not just by policy.</div>
+        <div class="feature-img"><svg width="100%" height="100%"><defs><pattern id="s3" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(37,48,54,0.1)" stroke-width="4"/></pattern></defs><rect width="100%" height="100%" fill="url(#s3)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="monospace" font-size="10" fill="rgba(37,48,54,0.3)">app screenshot</text></svg></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-name">AI<br><em>Companion</em></div>
+        <div class="feature-desc">Talk to a calm, supportive assistant whenever anxiety rises — like a friend who truly gets it. Always present, never judgmental.</div>
+        <div class="feature-img"><svg width="100%" height="100%"><defs><pattern id="s4" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(37,48,54,0.1)" stroke-width="4"/></pattern></defs><rect width="100%" height="100%" fill="url(#s4)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="monospace" font-size="10" fill="rgba(37,48,54,0.3)">app screenshot</text></svg></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-name">Fully<br><em>Offline</em></div>
+        <div class="feature-desc">No internet required. Works anywhere, including mid-flight at 35,000 feet. Download once, fly calm forever.</div>
+        <div class="feature-img"><svg width="100%" height="100%"><defs><pattern id="s5" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(37,48,54,0.1)" stroke-width="4"/></pattern></defs><rect width="100%" height="100%" fill="url(#s5)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="monospace" font-size="10" fill="rgba(37,48,54,0.3)">app screenshot</text></svg></div>
+      </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div class="testimonials-header">
+    <div class="section-label dark">Real experiences from the air</div>
+    <h2 class="section-title">What it feels like<br>to fly <em>calm</em></h2>
+  </div>
+  <div class="testimonials-track" id="reviewTrack">
+    <div class="review-card">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="review-text">"I usually panic the moment turbulence starts. This time I opened Zephyr and followed the steps — within minutes, I actually felt my body calm down. First flight I didn't grip the seat the whole time."</p>
+      <div class="reviewer">Anna K. — Frequent flyer</div>
+    </div>
+    <div class="review-card">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="review-text">"Takeoff is always the worst for me. Heart racing, overthinking everything. Zephyr walked me through it step by step — it felt like someone steady was right there with me."</p>
+      <div class="reviewer">Michael R. — Business traveler</div>
+    </div>
+    <div class="review-card">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="review-text">"I had a panic spike mid-flight and no internet, which usually makes it worse. Zephyr worked instantly in airplane mode. The breathing and grounding actually pulled me out of it."</p>
+      <div class="reviewer">Sofia L. — Solo traveler</div>
+    </div>
+    <div class="review-card">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="review-text">"I used to avoid overnight flights because anxiety builds up when I can't distract myself. With Zephyr, I stayed calm enough to relax — even managed to sleep."</p>
+      <div class="reviewer">Daniel M. — Long-haul traveler</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="faq-outer">
+<section class="faq" id="faq">
+  <div class="faq-header">
+    <div class="section-label dark">Questions</div>
+    <h2 class="section-title">Everything you<br>need to <em>know</em></h2>
+  </div>
+  <div id="faqList"></div>
+</section>
+</div>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="night-stars"></div>
+  <div class="night-sky">
+    <!-- dark clouds bottom -->
+    <svg style="position:absolute;bottom:-5%;left:-3%;width:36%;opacity:0.6" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg"><ellipse cx="250" cy="165" rx="230" ry="50" fill="#1a3248"/><ellipse cx="180" cy="125" rx="110" ry="70" fill="#1a3248"/><ellipse cx="300" cy="112" rx="120" ry="80" fill="#1a3248"/><ellipse cx="390" cy="140" rx="90" ry="58" fill="#1a3248"/><ellipse cx="75" cy="148" rx="72" ry="52" fill="#1a3248"/></svg>
+    <svg style="position:absolute;bottom:-8%;right:-2%;width:42%;opacity:0.55" viewBox="0 0 540 210" xmlns="http://www.w3.org/2000/svg"><ellipse cx="270" cy="170" rx="248" ry="52" fill="#152a3e"/><ellipse cx="195" cy="128" rx="118" ry="76" fill="#152a3e"/><ellipse cx="330" cy="115" rx="128" ry="85" fill="#152a3e"/><ellipse cx="420" cy="145" rx="96" ry="62" fill="#152a3e"/><ellipse cx="80" cy="152" rx="78" ry="56" fill="#152a3e"/></svg>
+    <!-- subtle top cloud -->
+    <svg style="position:absolute;top:-3%;right:20%;width:25%;opacity:0.35" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg"><ellipse cx="180" cy="118" rx="160" ry="40" fill="#1e3d58"/><ellipse cx="125" cy="85" rx="80" ry="58" fill="#1e3d58"/><ellipse cx="225" cy="75" rx="90" ry="64" fill="#1e3d58"/><ellipse cx="295" cy="100" rx="68" ry="46" fill="#1e3d58"/></svg>
+  </div>
+  <div class="final-cta-inner">
+    <h2 class="section-title">Ready to fly calm?</h2>
+    <p class="cta-sub">Download Zephyr for free and feel the difference on your next flight.</p>
+    <a href="#" class="btn-light">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download on the App Store
+    </a>
+    <p class="cta-note">No account, no internet, no worries.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Zephyr</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">App Privacy</a></li>
+    <li><a href="#">Terms of Use</a></li>
+    <li><a href="#">Support</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Qwerty12 Inc.</div>
+</footer>
+
+<div id="tweaks-root"></div>
+
+<script>
+// FAQ data
+const faqs = [
+  { q: "How does Zephyr work without internet?", a: "Zephyr runs entirely on your device using a lightweight AI model that downloads once over Wi-Fi when you first install the app. After that, no internet connection is ever needed — it works fully offline, including in airplane mode at 35,000 feet." },
+  { q: "How much storage does the model take?", a: "The on-device AI model is under 2GB. We've optimised it to be as small as possible while still delivering calm, meaningful responses. Download it once before your flight and you're set." },
+  { q: "Which devices are supported?", a: "Zephyr is optimised for iPhone 15, 16, and 17. The on-device AI model requires the performance chips in these models to run smoothly and respond instantly." },
+  { q: "Does it work in airplane mode?", a: "Yes — completely. Zephyr is built for airplane mode. Turn on flight mode before takeoff and Zephyr works exactly the same as when you're connected. That's the whole point." },
+  { q: "Is my data stored or sent anywhere?", a: "Never. Your conversations stay on your phone. We have no servers receiving your messages. Zephyr is private by architecture — there's no cloud processing, no tracking, no external servers involved at any point." },
+  { q: "Is this a replacement for therapy?", a: "No — Zephyr is a supportive tool for managing in-flight anxiety, not a medical treatment. If you have severe anxiety or an anxiety disorder, we encourage you to work with a qualified professional. Zephyr is designed to complement that, not replace it." },
+  { q: "What if I have a panic attack mid-flight?", a: "Zephyr is specifically built for this moment. Tap \"I feel panic coming\" and it immediately guides you through a structured sequence — breathing reset, body grounding, thought reframing — step by step, until your nervous system settles." },
+  { q: "Do I need to set anything up before the flight?", a: "Just download the app and let the model download over Wi-Fi — that's it. We recommend doing this at home or at the airport before boarding. Once downloaded, Zephyr is ready to go the moment you need it." },
+  { q: "Will it drain my battery?", a: "Zephyr is designed to be battery-efficient. The AI runs locally but is optimised for low power usage. For long-haul flights, we still recommend keeping your phone charged or bringing a power bank — just good travel practice." }
+];
+
+const faqList = document.getElementById('faqList');
+faqs.forEach((item, i) => {
+  const div = document.createElement('div');
+  div.className = 'faq-item';
+  div.innerHTML = `
+    <button class="faq-q" aria-expanded="false">
+      <span>${item.q}</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">${item.a}</div>
+  `;
+  div.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = div.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) div.classList.add('open');
+  });
+  faqList.appendChild(div);
+});
+
+// Drag scroll on reviews
+const track = document.getElementById('reviewTrack');
+let isDown = false, startX, scrollLeft;
+track.addEventListener('mousedown', e => { isDown = true; track.classList.add('dragging'); startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
+track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
+track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
+track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - track.offsetLeft; track.scrollLeft = scrollLeft - (x - startX) * 1.2; });
+</script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "#5D8C92",
+  "heroHeadline": "Fly without fear",
+  "darkSection": true,
+  "reviewsLayout": "scroll"
+}/*EDITMODE-END*/;
+
+function ZephyrTweaks() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--teal', tweaks.accentColor);
+  }, [tweaks.accentColor]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Brand">
+        <TweakColor label="Accent colour" value={tweaks.accentColor} onChange={v => setTweak('accentColor', v)} />
+      </TweakSection>
+      <TweakSection label="Hero">
+        <TweakText label="Headline" value={tweaks.heroHeadline} onChange={v => {
+          setTweak('heroHeadline', v);
+          const h1 = document.querySelector('.hero-headline');
+          if (h1) h1.innerHTML = v.replace('fear', '<em>fear</em>');
+        }} />
+      </TweakSection>
+      <TweakSection label="Features">
+        <TweakToggle label="Dark background" value={tweaks.darkSection} onChange={v => {
+          setTweak('darkSection', v);
+          const sec = document.querySelector('.features');
+          if (sec) sec.style.background = v ? '#253036' : '#f7f6f4';
+        }} />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+const tweaksRoot = document.getElementById('tweaks-root');
+ReactDOM.createRoot(tweaksRoot).render(<ZephyrTweaks />);
+</script>
+
+</body>
+</html>

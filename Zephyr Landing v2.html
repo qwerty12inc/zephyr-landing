@@ -44,7 +44,10 @@
     --radius-card: 24px;
   }
 
-  html { scroll-behavior: smooth; }
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
 
   body {
     font-family: var(--font-sans);
@@ -159,12 +162,15 @@
   }
   .hero-headline {
     font-family: var(--font-display);
-    font-size: clamp(52px, 5.5vw, 88px);
+    font-size: clamp(52px, 5vw, 96px);
     font-weight: 800;
     line-height: 1.0;
     letter-spacing: -0.035em;
     color: #0a1f2e;
     margin-bottom: 28px;
+  }
+  @media (max-width: 900px) {
+    .hero-headline { font-size: 40px; }
   }
   .hero-headline em {
     font-style: normal;
@@ -353,9 +359,15 @@
   .features-inner .section-label { display: block; color: #fff !important; }
   .features-inner .section-title {
     font-size: clamp(52px, 5vw, 96px);
-    white-space: nowrap;
+    white-space: normal;
     margin-bottom: 0;
     color: #fff;
+  }
+  @media (max-width: 900px) {
+    .features-inner .section-title {
+      white-space: normal;
+      font-size: clamp(40px, 10vw, 72px);
+    }
   }
   .features-inner .section-title em { color: rgba(255,255,255,0.7); }
   .section-label {
@@ -763,6 +775,8 @@
       width: auto;
       height: auto;
       float: none;
+      transform: scale(1.2);
+      transform-origin: bottom right;
     }
     .feature-card:nth-child(3) { grid-template-columns: 2fr 1fr !important; }
     .feature-card:nth-child(3) .feature-name { grid-column: 1 !important; grid-row: 1 !important; }
@@ -1768,10 +1782,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="footer-inner">
   <div class="footer-logo">Zephyr</div>
   <ul class="footer-links">
-    <li><a href="#">Privacy Policy</a></li>
-    <li><a href="#">App Privacy</a></li>
-    <li><a href="#">Terms of Use</a></li>
-    <li><a href="#">Support</a></li>
+    <li><a href="privacy_policy.html">Privacy Policy</a></li>
+    <li><a href="app_privacy_policy.html">App Privacy</a></li>
+    <li><a href="terms_of_use.html">Terms of Use</a></li>
   </ul>
   <div class="footer-social">
     <a href="https://x.com/zephyrhelp" target="_blank">

@@ -44,7 +44,11 @@
     --radius-card: 24px;
   }
 
-  html, body {
+  html {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+  body {
     overflow-x: hidden;
     max-width: 100%;
   }
@@ -55,7 +59,7 @@
     background: #d6e8f5;
     color: var(--dark);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   /* NAV FRAME — separate pill block */

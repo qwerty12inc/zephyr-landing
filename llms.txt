@@ -1,0 +1,43 @@
+# Zephyr
+
+> Zephyr is a mobile app that helps anxious flyers stay calm during flights using an offline AI assistant. It works without internet, provides real-time emotional support, and keeps all data on-device.
+
+Zephyr is designed for people with aviophobia, frequent travelers with anxiety, and first-time flyers. The core differentiator is that the AI companion runs entirely offline — no network connection required, no data leaves the device.
+
+## Product
+
+- Mobile app (iOS, iPhone 15–17)
+- Offline AI chat assistant powered by an on-device LLM
+- Structured Calm Guidance: step-by-step calming flows triggered by user anxiety signals
+- Real-time contextual reassurance during flight
+- Aviation knowledge base integrated into the model (e.g. turbulence facts, normal flight sounds)
+- Warm, non-clinical tone — not a therapy app, not a medical device
+
+Example user inputs the app is designed to handle:
+- "I'm scared of turbulence"
+- "Is this noise normal?"
+- "I feel panic coming"
+
+## Pricing
+
+- Subscription: $9–49/month
+- One-time flight pass
+- 7-day travel pass
+
+## Privacy & Legal
+
+- Company: Qwerty12 Inc
+- All AI inference runs on-device. No conversation data is transmitted or stored externally.
+- Analytics tools in use: Google Analytics, Mixpanel, PostHog
+- Data retention: 2 months
+- Privacy contact: privacy@zephyr.help
+- Policies available at zephyr.help: Privacy Policy, Terms of Use, App Privacy Policy
+
+## Website
+
+- zephyr.help
+- Pages: Landing, Privacy Policy, Terms of Use, Support
+
+## Contact
+
+- Privacy: privacy@zephyr.help

@@ -435,11 +435,11 @@
   .feature-card:hover { filter: brightness(0.97); transform: translateY(-2px); }
   .feature-card:nth-child(1) { background: oklch(0.88 0.10 196); }
   .feature-card:nth-child(2) { background: oklch(0.87 0.09 232); }
-  .feature-card:nth-child(3) { background: oklch(0.88 0.09 305); grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1fr; min-height: 200px; padding-top: 36px; padding-bottom: 32px; }
-  .feature-card:nth-child(3) .feature-name { font-size: clamp(32px, 3vw, 52px); grid-column: 1 / 3; grid-row: 1; }
-  .feature-card:nth-child(3) .feature-desc { grid-column: 1 / 3; grid-row: 2; }
-  .feature-card:nth-child(3) .feature-img { grid-column: 3; grid-row: 1 / 3; margin: -52px -48px -48px 24px; }
-  .feature-card:nth-child(3) .feature-img img { height: 90% !important; }
+  .feature-card:nth-child(3) { background: oklch(0.88 0.09 305); grid-column: 1 / -1; grid-template-columns: 2fr 1fr; grid-template-rows: auto 1fr; min-height: 0; height: 256px; padding-top: 24px; padding-bottom: 24px; }
+  .feature-card:nth-child(3) .feature-name { font-size: clamp(32px, 3vw, 52px); grid-column: 1; grid-row: 1; }
+  .feature-card:nth-child(3) .feature-desc { grid-column: 1; grid-row: 2; align-self: end; padding-bottom: 0; }
+  .feature-card:nth-child(3) .feature-img { grid-column: 2; grid-row: 1 / 3; margin: -24px -48px -24px 24px; align-self: stretch; }
+  .feature-card:nth-child(3) .feature-img img { height: 100% !important; }
   .feature-card:nth-child(4) { background: oklch(0.88 0.09 152); }
   .feature-card:nth-child(5) { background: oklch(0.88 0.11 15); }
   .feature-name {
@@ -1036,7 +1036,17 @@
     .feature-card .feature-name { font-size: 26px !important; margin-bottom: 8px !important; line-height: 1.05 !important; }
     .feature-card .feature-desc { font-size: 15px !important; line-height: 1.45 !important; padding-bottom: 20px !important; }
     .feature-card .feature-img { margin: -22px -22px 0 8px !important; transform: scale(1.15) !important; }
-    .feature-card:nth-child(3) .feature-img { margin: -22px -22px 0 8px !important; }
+    /* Reset Private & Safe desktop overrides on mobile — match other cards */
+    .feature-card:nth-child(3) {
+      grid-template-columns: 2fr 1fr !important;
+      grid-column: auto !important;
+      min-height: 0 !important;
+      padding: 22px 22px 0 !important;
+    }
+    .feature-card:nth-child(3) .feature-name { font-size: 26px !important; grid-column: 1 !important; grid-row: 1 !important; }
+    .feature-card:nth-child(3) .feature-desc { grid-column: 1 !important; grid-row: 2 !important; }
+    .feature-card:nth-child(3) .feature-img { grid-column: 2 !important; grid-row: 1 / 3 !important; margin: -22px -22px 0 8px !important; }
+    .feature-card:nth-child(3) .feature-img img { height: 100% !important; width: 100% !important; object-fit: contain !important; object-position: bottom right !important; }
   }
     .review-card { flex: 0 0 300px; }
   }
@@ -2155,34 +2165,9 @@ initParallax();
 function initStackedCards() {
   if (window.innerWidth > 900) return;
   const cards = document.querySelectorAll('.feature-card');
-  // Equalize heights
   cards.forEach(c => c.style.minHeight = '');
   const maxH = Math.max(...Array.from(cards).map(c => c.offsetHeight));
   cards.forEach(c => c.style.minHeight = maxH + 'px');
-
-  function onScroll() {
-    const vh = window.innerHeight;
-    cards.forEach((card, i) => {
-      const rect = card.getBoundingClientRect();
-      const stickyTop = 80;
-      // distance the card has been "stuck" past its natural position
-      const scrolledPast = Math.max(0, stickyTop - rect.top + (parseFloat(getComputedStyle(card).top) || 0));
-      // For cards behind, gradually scale down + slight Y offset
-      const next = cards[i + 1];
-      if (next) {
-        const nextRect = next.getBoundingClientRect();
-        // Progress: how close the next card is to overlapping (0..1)
-        const progress = Math.max(0, Math.min(1, (vh - nextRect.top) / vh));
-        const scale = 1 - progress * 0.05;
-        const ty = -progress * 8;
-        card.style.transform = `scale(${scale}) translateY(${ty}px)`;
-      } else {
-        card.style.transform = '';
-      }
-    });
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 }
 initStackedCards();
 window.addEventListener('resize', initStackedCards);

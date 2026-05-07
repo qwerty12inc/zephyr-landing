@@ -1033,9 +1033,10 @@
     /* Shrink feature cards vertically on mobile */
     .feature-card {
       padding: 22px 22px 0 !important;
+      grid-template-rows: auto 1fr !important;
     }
-    .feature-card .feature-name { font-size: 26px !important; margin-bottom: 4px !important; line-height: 1.05 !important; }
-    .feature-card .feature-desc { font-size: 15px !important; line-height: 1.45 !important; padding-bottom: 20px !important; align-self: start !important; }
+    .feature-card .feature-name { font-size: 26px !important; margin-bottom: 4px !important; line-height: 1.05 !important; align-self: start !important; }
+    .feature-card .feature-desc { font-size: 15px !important; line-height: 1.45 !important; padding-bottom: 20px !important; align-self: end !important; }
     .feature-card .feature-img { margin: -22px -22px 0 8px !important; transform: scale(1.15) !important; }
     /* Reset Private & Safe desktop overrides on mobile — match other cards */
     .feature-card:nth-child(3) {

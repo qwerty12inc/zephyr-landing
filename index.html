@@ -1017,10 +1017,11 @@
       position: sticky;
       top: 80px;
       z-index: var(--card-z, 1);
-      margin-bottom: 12px;
-      transform-origin: top center;
-      transition: transform 0.1s ease-out;
-      will-change: transform;
+      margin-bottom: 16px;
+      min-height: var(--card-h, 420px);
+      transform: none !important;
+      transition: none;
+      will-change: auto;
     }
     .feature-card:nth-child(1) { --card-z: 1; }
     .feature-card:nth-child(2) { --card-z: 2; }
@@ -1033,7 +1034,7 @@
     .feature-card {
       padding: 22px 22px 0 !important;
     }
-    .feature-card .feature-name { font-size: 26px !important; margin-bottom: 8px !important; line-height: 1.05 !important; }
+    .feature-card .feature-name { font-size: 26px !important; margin-bottom: 4px !important; line-height: 1.05 !important; }
     .feature-card .feature-desc { font-size: 15px !important; line-height: 1.45 !important; padding-bottom: 20px !important; }
     .feature-card .feature-img { margin: -22px -22px 0 8px !important; transform: scale(1.15) !important; }
     /* Reset Private & Safe desktop overrides on mobile — match other cards */
@@ -2161,16 +2162,21 @@ function initParallax() {
 }
 initParallax();
 
-// Stacked cards scroll effect (mobile only)
-function initStackedCards() {
-  if (window.innerWidth > 900) return;
+// Mobile stacked cards: equalize heights so the sticky stack looks uniform
+function equalizeCardHeights() {
+  if (window.innerWidth > 900) {
+    document.documentElement.style.removeProperty('--card-h');
+    return;
+  }
   const cards = document.querySelectorAll('.feature-card');
   cards.forEach(c => c.style.minHeight = '');
-  const maxH = Math.max(...Array.from(cards).map(c => c.offsetHeight));
-  cards.forEach(c => c.style.minHeight = maxH + 'px');
+  let maxH = 0;
+  cards.forEach(c => { if (c.offsetHeight > maxH) maxH = c.offsetHeight; });
+  document.documentElement.style.setProperty('--card-h', maxH + 'px');
 }
-initStackedCards();
-window.addEventListener('resize', initStackedCards);
+window.addEventListener('load', equalizeCardHeights);
+window.addEventListener('resize', equalizeCardHeights);
+equalizeCardHeights();
 const faqs = [
   { q: "How does Zephyr work without internet?", a: "Zephyr runs entirely on your device using a lightweight AI model that downloads once over Wi-Fi when you first install the app. After that, no internet connection is ever needed — it works fully offline, including in airplane mode at 35,000 feet." },
   { q: "How much storage does the model take?", a: "The on-device AI model is under 2GB. We've optimised it to be as small as possible while still delivering calm, meaningful responses. Download it once before your flight and you're set." },

@@ -422,7 +422,7 @@
   .feature-card:hover { filter: brightness(0.97); transform: translateY(-2px); }
   .feature-card:nth-child(1) { background: oklch(0.88 0.10 196); }
   .feature-card:nth-child(2) { background: oklch(0.87 0.09 232); }
-  .feature-card:nth-child(3) { background: oklch(0.88 0.09 305); grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1fr; min-height: 260px; }
+  .feature-card:nth-child(3) { background: oklch(0.88 0.09 305); grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1fr; min-height: 200px; padding-top: 36px; padding-bottom: 32px; }
   .feature-card:nth-child(3) .feature-name { font-size: clamp(32px, 3vw, 52px); grid-column: 1 / 3; grid-row: 1; }
   .feature-card:nth-child(3) .feature-desc { grid-column: 1 / 3; grid-row: 2; }
   .feature-card:nth-child(3) .feature-img { grid-column: 3; grid-row: 1 / 3; margin: -52px -48px -48px 24px; }
@@ -1001,6 +1001,16 @@
     .feature-card:nth-child(3) { --card-z: 3; }
     .feature-card:nth-child(4) { --card-z: 4; }
     .feature-card:nth-child(5) { --card-z: 5; }
+    /* Hide secondary copy on mobile for Private & Safe */
+    .feature-card .feature-desc .desc-extra { display: none; }
+    /* Shrink feature cards vertically on mobile */
+    .feature-card {
+      padding: 22px 22px 0 !important;
+    }
+    .feature-card .feature-name { font-size: 26px !important; margin-bottom: 8px !important; line-height: 1.05 !important; }
+    .feature-card .feature-desc { font-size: 15px !important; line-height: 1.45 !important; padding-bottom: 20px !important; }
+    .feature-card .feature-img { margin: -22px -22px 0 8px !important; transform: scale(1.15) !important; }
+    .feature-card:nth-child(3) .feature-img { margin: -22px -22px 0 8px !important; }
   }
     .review-card { flex: 0 0 300px; }
   }
@@ -1898,7 +1908,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="feature-card">
         <div class="feature-name">Private<br><em>&amp; Safe</em></div>
-        <div class="feature-desc">Your conversations stay on your device. No data leaves your phone, ever. This is our principle: we never store personal data — because privacy should belong entirely to you, not us. You stay in full control, always.</div>
+        <div class="feature-desc">Your conversations stay on your device. No data leaves your phone, ever.<span class="desc-extra"> This is our principle: we never store personal data — because privacy should belong entirely to you, not us. You stay in full control, always.</span></div>
         <div class="feature-img"><img src="privacy.png" alt="Private &amp; Safe" style="width:100%;height:100%;object-fit:contain;object-position:bottom right;"></div>
       </div>
       <div class="feature-card">

@@ -130,13 +130,27 @@
     position: relative;
     z-index: 1;
     padding: 48px 5vw 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    max-width: 1280px;
+    justify-content: center;
+    text-align: center;
+    gap: 0;
+    max-width: 900px;
     margin: 0 auto;
     min-height: calc(80vh - 68px);
+  }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-sub {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-actions {
+    align-items: center;
   }
   .hero-badge {
     display: inline-flex;
@@ -189,7 +203,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    align-items: flex-start;
+    align-items: center;
   }
   .btn-primary {
     display: inline-flex;
@@ -223,7 +237,6 @@
     align-items: center;
     gap: 6px;
     transition: opacity 0.2s;
-    padding-left: 28px;
   }
   .hero-link:hover { opacity: 1; }
 
@@ -426,6 +439,7 @@
   .feature-card:nth-child(3) .feature-name { font-size: clamp(32px, 3vw, 52px); grid-column: 1 / 3; grid-row: 1; }
   .feature-card:nth-child(3) .feature-desc { grid-column: 1 / 3; grid-row: 2; }
   .feature-card:nth-child(3) .feature-img { grid-column: 3; grid-row: 1 / 3; margin: -52px -48px -48px 24px; }
+  .feature-card:nth-child(3) .feature-img img { height: 90% !important; }
   .feature-card:nth-child(4) { background: oklch(0.88 0.09 152); }
   .feature-card:nth-child(5) { background: oklch(0.88 0.11 15); }
   .feature-name {
@@ -501,11 +515,22 @@
     opacity: 0.85;
   }
   .reviewer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 13px;
     font-weight: 600;
     color: var(--dark);
-    opacity: 0.5;
+    opacity: 0.7;
     letter-spacing: 0.02em;
+  }
+  .reviewer-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: rgba(0,0,0,0.04);
   }
 
   /* PRICING */
@@ -928,7 +953,8 @@
   }
   @media (max-width: 900px) {
     body { font-size: 27px; }
-    .top-frame, .features-inner, .testimonials-wrap, .faq-inner-wrap, .final-cta, .footer-inner { border-radius: 18px; }
+    .top-frame, .features-inner, .testimonials-wrap, .faq-inner-wrap, .final-cta { border-radius: 18px; }
+    .footer-inner { border-radius: 0; }
     .feature-card { border-radius: 18px; }
     .hero { grid-template-columns: 1fr; text-align: center; padding-top: 60px; padding-bottom: 0; }
     .hero-sub, .btn-primary, .hero-link { margin-left: auto; margin-right: auto; }
@@ -1864,7 +1890,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-text">
     <div class="hero-badge">Works offline · No account needed · Free to try</div>
     <h1 class="hero-headline">Fly without <em>fear</em></h1>
-    <p class="hero-sub">Zephyr is your offline AI companion that helps you stay calm during flights — from takeoff jitters to turbulence and everything in between.</p>
+    <p class="hero-sub">Zephyr is your offline AI companion that helps you stay calm during flights — from takeoff jitters to turbulence and everything in between. Fully private and fully offline — your data never leaves your phone.</p>
     <div class="hero-actions">
       <a href="https://apps.apple.com/app/apple-store/id6759796137?pt=126909020&ct=landing&mt=8" class="btn-primary">
         <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"></path></svg>
@@ -1875,14 +1901,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- Mobile phone peek -->
-  <div class="phone-peek">
-    <img src="screen_hero.png" alt="Zephyr app screenshot" style="width:240px;border-radius:36px;box-shadow:0 40px 100px rgba(37,48,54,0.25);">
-  </div>
 
   <!-- Desktop phone mockup -->
-  <div class="phone-wrap">
-    <img src="screen_hero.png" alt="Zephyr app screenshot">
-  </div>
 
 </section>
 </div>
@@ -1935,22 +1955,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="review-card">
       <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       <p class="review-text">"I usually panic the moment turbulence starts. This time I opened Zephyr and followed the steps — within minutes, I actually felt my body calm down. First flight I didn't grip the seat the whole time."</p>
-      <div class="reviewer">Anna K. — Frequent flyer</div>
+      <div class="reviewer"><img class="reviewer-avatar" src="avatar1.png" alt=""><span>Anna K. — Frequent flyer</span></div>
     </div>
     <div class="review-card">
       <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       <p class="review-text">"Takeoff is always the worst for me. Heart racing, overthinking everything. Zephyr walked me through it step by step — it felt like someone steady was right there with me."</p>
-      <div class="reviewer">Michael R. — Business traveler</div>
+      <div class="reviewer"><img class="reviewer-avatar" src="avatar3.png" alt=""><span>Michael R. — Business traveler</span></div>
     </div>
     <div class="review-card">
       <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       <p class="review-text">"I had a panic spike mid-flight and no internet, which usually makes it worse. Zephyr worked instantly in airplane mode. The breathing and grounding actually pulled me out of it."</p>
-      <div class="reviewer">Sofia L. — Solo traveler</div>
+      <div class="reviewer"><img class="reviewer-avatar" src="avatar2.png" alt=""><span>Sofia L. — Solo traveler</span></div>
     </div>
     <div class="review-card">
       <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       <p class="review-text">"I used to avoid overnight flights because anxiety builds up when I can't distract myself. With Zephyr, I stayed calm enough to relax — even managed to sleep."</p>
-      <div class="reviewer">Daniel M. — Long-haul traveler</div>
+      <div class="reviewer"><img class="reviewer-avatar" src="avatar4.png" alt=""><span>Daniel M. — Long-haul traveler</span></div>
     </div>
   </div>
 </div>
@@ -2072,6 +2092,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tweaks-root"></div>
 
 <script>
+// Hero headline rotation on scroll + auto-cycle every 3s
+(function initHeroRotation() {
+  const h1 = document.querySelector('.hero-headline');
+  if (!h1) return;
+  const phrases = [
+    'Fly without <em>fear</em>',
+    'Use AI with <em>full privacy</em>',
+    'Use <em>fully offline</em>'
+  ];
+  let idx = 0;
+  h1.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  function setPhrase(next) {
+    if (next === idx) return;
+    idx = next;
+    h1.style.opacity = '0';
+    h1.style.transform = 'translateY(-8px)';
+    setTimeout(() => {
+      h1.innerHTML = phrases[idx];
+      h1.style.opacity = '1';
+      h1.style.transform = 'translateY(0)';
+    }, 200);
+  }
+  function update() {
+    const sy = window.scrollY;
+    let next = 0;
+    if (sy >= 150) next = 0;
+    else if (sy >= 100) next = 2;
+    else if (sy >= 50) next = 1;
+    setPhrase(next);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+  // Auto-cycle every 3s
+  setInterval(() => {
+    setPhrase((idx + 1) % phrases.length);
+  }, 3000);
+})();
+
 // Parallax clouds
 function initParallax() {
   const heroOuter = document.querySelector('.hero-outer');
@@ -2101,6 +2159,30 @@ function initStackedCards() {
   cards.forEach(c => c.style.minHeight = '');
   const maxH = Math.max(...Array.from(cards).map(c => c.offsetHeight));
   cards.forEach(c => c.style.minHeight = maxH + 'px');
+
+  function onScroll() {
+    const vh = window.innerHeight;
+    cards.forEach((card, i) => {
+      const rect = card.getBoundingClientRect();
+      const stickyTop = 80;
+      // distance the card has been "stuck" past its natural position
+      const scrolledPast = Math.max(0, stickyTop - rect.top + (parseFloat(getComputedStyle(card).top) || 0));
+      // For cards behind, gradually scale down + slight Y offset
+      const next = cards[i + 1];
+      if (next) {
+        const nextRect = next.getBoundingClientRect();
+        // Progress: how close the next card is to overlapping (0..1)
+        const progress = Math.max(0, Math.min(1, (vh - nextRect.top) / vh));
+        const scale = 1 - progress * 0.05;
+        const ty = -progress * 8;
+        card.style.transform = `scale(${scale}) translateY(${ty}px)`;
+      } else {
+        card.style.transform = '';
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 initStackedCards();
 window.addEventListener('resize', initStackedCards);
